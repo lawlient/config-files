@@ -1,17 +1,41 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'morhetz/gruvbox'
-call vundle#end()
-
-filetype plugin indent on
+" set the runtime path to include Vundle and initialize
+ set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#begin()
+" " alternatively, pass a path where Vundle should install plugins
+" "call vundle#begin(‘~/some/path/here‘)
+"
+" " let Vundle manage Vundle, required
+ Plugin 'VundleVim/Vundle.vim'
+"
+" " The following are examples of different formats supported.
+" " Keep Plugin commands between vundle#begin/end.
+"
+" " All of your Plugins must be added before the following line
+ Plugin 'Valloric/YouCompleteMe'
+ Plugin 'morhetz/gruvbox'
+call vundle#end()            " required
+" filetype plugin indent on    " required
+" " To ignore plugin indent changes, instead use:
+" "filetype plugin on
+"
+set bg=dark
+"execute pathogen#infect()
 
 syntax enable
 syntax on
+filetype on
+filetype plugin on
+filetype plugin indent on
+
+" indent fold
+set foldmethod=indent
+set foldlevel=1
+
+
+
 set clipboard=unnamedplus
 set nu
 set sm
@@ -27,16 +51,18 @@ set si
 set cindent
 set showmatch
 set wildmenu
+" A tab produces a 2-space indentation
+set softtabstop=2
+set expandtab
 set smarttab
+set shiftwidth=2
+set tabstop=2
 set cursorline
 
 " opaque background
 hi Nomal ctermfg=255 ctermbg=none
 
 
-" indent fold
-set foldmethod=indent
-set foldlevel=1
 
 
 " manual fold
@@ -59,12 +85,6 @@ set background=dark
 " let g:rehash256=1
 " colorscheme molokai
 
-
-set tabstop=2
-" A tab produces a 2-space indentation
-set softtabstop=2
-set shiftwidth=2
-set expandtab
 
 set display+=lastline
 set history=400
@@ -98,7 +118,7 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 
 
-
+" for searching file in shapechecker
 function! GoToSrc()
 ruby << EOF
 # Check root according to Git.
