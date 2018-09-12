@@ -31,8 +31,11 @@ filetype plugin on
 filetype plugin indent on
 
 " indent fold
-set foldmethod=indent
-set foldlevel=1
+" set foldmethod=indent
+" set foldlevel=1
+set foldmethod=manual
+autocmd BufWinLeave *.* mkview " save fold
+autocmd BufWinEnter *.* silent loadview " load fold
 
 
 
