@@ -45,13 +45,6 @@ set -gx MANWIDTH           72
 
 . /usr/share/autojump/autojump.fish
 
-alias jtl='cd ~/lawlient/tingli365'
-alias jb='cd ~/lawlient/documents/books'
-alias jt='cd ~/lawlient/test'
-alias jn='cd ~/lawlient/note'
-alias jl='cd ~/lawlient/leetcode'
-alias cp='cp -i'
-alias mv='mv -i'
 function rm
   echo NOTE: `rm` is dangerous. Use `t` or `/bin/rm` instead.
 end
@@ -59,7 +52,17 @@ end
 alias ll='ls -halF --time-style=long-iso'
 alias lt='ls -halF --time-style=long-iso -tr'
 
-alias sf='. ~/dot-files/config.fish'
+# git alias
+alias gl='git pull origin HEAD:refs/for/master'
+alias gp='git log -p'
+alias gd='git diff -w'
+alias gac='git add --all --verbose; and git commit -v'
+alias gb='git branch -a'
+alias gs='git status'
+# NOTE: gc is a command 'graph count'
+alias gc='git config -l'
+alias gg="git log --author-date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ai) %C(bold blue)<%an>%Creset'"
+
 
 function e
   emacs $argv &
@@ -77,30 +80,7 @@ alias v='gvim'
 alias vf='vi ~/.config/fish/config.fish'
 alias vv='vi ~/.vimrc'
 
-# shapechecker project related
-function m
-  pushd .
-  and cd ~/shapechecker/build
-  and cmake --build . -- -j9
-  if test $status -eq 0
-    popd
-  else
-    cd ..
-    false
-  end
-end
-alias mt='m; and cd ~/shapechecker/testsuit; and ./test.py'
 
-# git
-alias gb='git branch -a'
-# NOTE: gc is a command 'graph count'
-alias gc='git config -l'
-alias go='git checkout' # TODO: gco <tab> failed
-alias gac='git add --all --verbose; and git commit -v'
-alias gg="git log --author-date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ai) %C(bold blue)<%an>%Creset' --all"
-alias gl='git pull'
-alias gs='git status'
-alias gd='git diff -w'
 
 function pp
   # ps --sort=-pcpu -eo pcpu,comm,pid,user | head -n 11
@@ -121,7 +101,4 @@ if type gvfs-tree > /dev/null 2>&1
   alias tree='gvfs-tree'
 end
 
-git config --global core.excludesfile ~/dot-files/.gitignore_global
-
 ulimit -c unlimited
-xmodmap ~/dot-files/.Xmodmap

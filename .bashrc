@@ -92,28 +92,24 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+# ls aliases
+alias ll='ls -halF --time-style=long-iso'
+alias lt='ls -halF --time-style=long-iso -tr'
 
-#some more git aliases
-alias gl='git log'
+# git alias
+alias gl='git pull origin HEAD:refs/for/master'
 alias gp='git log -p'
-alias gd='git diff'
-alias ga='git add'
+alias gd='git diff -w'
+alias gac='git add --all --verbose; and git commit -v'
+alias gb='git branch -a'
 alias gs='git status'
-alias gc='git checkout'
-alias gm='git commit -m'
+# NOTE: gc is a command 'graph count'
+alias gc='git config -l'
+alias gg="git log --author-date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ai) %C(bold blue)<%an>%Creset'"
 
-
-#for shapechecker
-alias shapechecker='/home/lawlient/shapechecker/bin/shapechecker'
-alias m='pushd . && cd ~/shapechecker/build/ && cmake --build . -- -j8 && popd'
-alias t='pushd . && cd ~/shapechecker/build/ && cmake --build . -- -j8 && cd ../testsuit/ && ./test.py && popd'
 
 #for printer
-alias XPrint='/home/lawlient/lawlient/documents/hpprint.sh -d 192.168.233.249'
+# alias XPrint='/home/lawlient/lawlient/documents/hpprint.sh -d 192.168.233.249'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -138,7 +134,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
-export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
