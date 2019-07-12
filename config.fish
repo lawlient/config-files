@@ -9,19 +9,19 @@ function fish_right_prompt
 end
 
 # Path to Oh My Fish install.
-set -q XDG_DATA_HOME
-  and set -gx OMF_PATH "$XDG_DATA_HOME/omf"
-  or set -gx OMF_PATH "$HOME/.local/share/omf"
+# set -q XDG_DATA_HOME
+#   and set -gx OMF_PATH "$XDG_DATA_HOME/omf"
+#   or set -gx OMF_PATH "$HOME/.local/share/omf"
 
 # Customize Oh My Fish configuration path.
-#set -gx OMF_CONFIG "/home/justme0/.config/omf"
+# set -gx OMF_CONFIG "/home/justme0/.config/omf"
 
 # Load oh-my-fish configuration.
-source $OMF_PATH/init.fish
+##source $OMF_PATH/init.fish
 
-fish_vi_key_bindings
+# fish_vi_key_bindings
 
-set PATH /sbin /usr/local/sbin /usr/sbin ~/dot-files/bin /usr/local/cuda/bin ~/shapechecker/bin $PATH 2> /dev/null
+set PATH /sbin /usr/local/sbin /usr/sbin /usr/local/cuda/bin $PATH 2> /dev/null
 
 set -gx C_INCLUDE_PATH     /usr/include/x86_64-linux-gnu
 set -gx CPLUS_INCLUDE_PATH /usr/include/x86_64-linux-gnu
@@ -36,33 +36,10 @@ set -gx LESS               -iR # http://stackoverflow.com/a/26069/1204713
 set -gx MANWIDTH           72
 #set -gx BROWSER            chromium-browser
 
-# YouCompleteMe related
-#enable the following when YCM git clone failed
-#https://confluence.atlassian.com/stashkb/git-clone-fails-error-rpc-failed-result-56-http-code-200-693897332.html
-#set -gx GIT_TRACE_PACKET   1
-#set -gx GIT_TRACE          1
-#set -gx GIT_CURL_VERBOSE   1
+set fish_color_search_match --background='144'
 
-. /usr/share/autojump/autojump.fish
 
-function rm
-  echo NOTE: `rm` is dangerous. Use `t` or `/bin/rm` instead.
-end
-
-alias ll='ls -halF --time-style=long-iso'
-alias lt='ls -halF --time-style=long-iso -tr'
-
-# git alias
-alias gl='git pull origin HEAD:refs/for/master'
-alias gp='git log -p'
-alias gd='git diff -w'
-alias gac='git add --all --verbose; and git commit -v'
-alias gb='git branch -a'
-alias gs='git status'
-# NOTE: gc is a command 'graph count'
-alias gc='git config -l'
-alias gg="git log --author-date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ai) %C(bold blue)<%an>%Creset'"
-
+# YouCompleteMe relatedot-files/config.fish'
 
 function e
   emacs $argv &
@@ -75,11 +52,19 @@ function eng
   emacs -nw --eval "( gdb \" gdb -i=mi --args $argv \" )"
 end
 
-alias v='gvim'
-# symbolic link is ~/.config/fish/config.fish
 alias vf='vi ~/.config/fish/config.fish'
 alias vv='vi ~/.vimrc'
 
+# git
+alias gb='git branch -a'
+# NOTE: gc is a command 'graph count'
+alias gc='git config -l'
+alias go='git checkout' # TODO: gco <tab> failed
+alias gac='git add --all --verbose; and git commit -v'
+alias gg="git log --author-date-order --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ai) %C(bold blue)<%an>%Creset'"
+alias gl='git pull'
+alias gs='git status'
+alias gd='git diff -w'
 
 
 function pp
@@ -100,5 +85,7 @@ end
 if type gvfs-tree > /dev/null 2>&1
   alias tree='gvfs-tree'
 end
+
+##git config --global core.excludesfile ~/dot-files/.gitignore_global
 
 ulimit -c unlimited

@@ -2,26 +2,27 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
- set rtp+=~/.vim/bundle/Vundle.vim
- call vundle#begin()
-" " alternatively, pass a path where Vundle should install plugins
-" "call vundle#begin(‘~/some/path/here‘)
-"
-" " let Vundle manage Vundle, required
- Plugin 'VundleVim/Vundle.vim'
-"
-" " The following are examples of different formats supported.
-" " Keep Plugin commands between vundle#begin/end.
-"
-" " All of your Plugins must be added before the following line
- Plugin 'Valloric/YouCompleteMe'
- Plugin 'morhetz/gruvbox'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin(‘~/some/path/here‘)
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+
+" All of your Plugins must be added before the following line
+Plugin 'Valloric/YouCompleteMe'
+" Plugin 'morhetz/gruvbox'
+
+Plugin 'majutsushi/tagbar'
+Plugin 'universal-ctags/ctags'
+
 call vundle#end()            " required
-" filetype plugin indent on    " required
-" " To ignore plugin indent changes, instead use:
-" "filetype plugin on
-"
-set bg=dark
+
+"set bg=dark
 "execute pathogen#infect()
 
 syntax enable
@@ -30,127 +31,115 @@ filetype on
 filetype plugin on
 filetype plugin indent on
 
-" indent fold
-" set foldmethod=indent
-" set foldlevel=1
+" fold memory
 set foldmethod=manual
-autocmd BufWinLeave *.* mkview " save fold
-autocmd BufWinEnter *.* silent loadview " load fold
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
 
+set cursorline
+:hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkcyan guifg=white
+nnoremap <Leader>c :set cursorline!<CR>
 
+:hi CursorColumn cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkcyan guifg=white
+nnoremap <Leader>a :set cursorcolumn!<CR>
+
+set colorcolumn=81
+:hi ColorColumn   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkcyan guifg=white
+nnoremap <Leader>l :set colorcolumn=81<CR>
 
 set clipboard=unnamedplus
 set nu
 set sm
+set ai
 set autoindent
 set smartindent
-
 set cin
 set hlsearch
 set incsearch
-set ignorecase
-set ai
+"set ignorecase
 set si
 set cindent
 set showmatch
 set wildmenu
-" A tab produces a 2-space indentation
-set softtabstop=2
+" A tab produces a 4-space indentation
+set softtabstop=4
 set expandtab
 set smarttab
-set shiftwidth=2
-set tabstop=2
-set cursorline
+set shiftwidth=4
+set splitright
+set tabstop=4
+set scrolloff=5
+set autochdir
+set display+=lastline
+set history=400
+set encoding=utf-8
+set mouse=
+"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}   "状态行显示的内容  
 
 " opaque background
 hi Nomal ctermfg=255 ctermbg=none
 
-
-
-
-" manual fold
-" set foldmethod=manual
-" au BufWinLeave * silent mkview
-" au BufWinEnter * silent loadview
-
-" set guifont=Courier\ 10\ Pitch\ 12
-" set guifont=DejaVu\ Sans\ Mono\ 13
+" config for solarized----------
 set background=dark
+" let g:solarized_termcolors=256
+" let g:solarized_underline=0
 
-"  let g:solarized_termcolors=256
-"  let g:solarized_underline=0
-"  colorscheme solarized
-
-" set guioptions=r
-" let g:gruvbox_contrast_dark='soft'
-
-" let g:molokai_original=1
-" let g:rehash256=1
-" colorscheme molokai
-
-
-set display+=lastline
-set history=400
-
-set encoding=utf-8
-
-set mouse=a
 
 if has("autocmd")
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal!g'\"" | endif
 endif
 
 autocmd InsertLeave * se nocul
-"autocmd InsertEnter * se cul
+autocmd InsertEnter * se cul
 
 
-"-------------------ack for ag-----------------------
-" sudo apt-get install silversearcher-ag
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-"-------------------ack for ag end-------------------
 
+" config for youcompleteme
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_key_invoke_completion = '<M-;>'
+let g:ycn_key_invoke_completion = '<M-;>'
 nnoremap ,c :YcmCompleter GoToDeclaration<CR>
 nnoremap ,d :YcmCompleter GoToImprecise<CR>
-autocmd FileType python nnoremap ,d :YcmCompleter GoTo<CR>
+autocmd FileType python nnoremap ,d :YcmCompleter Goto<CR>
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+"let g:ycm_collect_identifiers_from_tag_files = 1  
 
 
+" config for tagbar
+" Bundle 'majutsushi/tagbar'
+nnoremap ,t :TagbarToggle<CR>      "快捷键设置
+let g:tagbar_ctags_bin='/usr/local/bin/ctags'          "ctags程序的路径
+let g:tagbar_width=30                   "窗口宽度的设置
+map <F3> :Tagbar<CR>
+"autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen() "如果是c语言的程序的话，tagbar自动开启
 
-" for searching file in shapechecker
-function! GoToSrc()
+
+function! GoToCpp()
 ruby << EOF
-# Check root according to Git.
-def is_root(dir)
-  File.directory?(dir + "/.git")
-end
-
 head = Vim::Buffer.current.name
 abort "Not head file." unless head.end_with?(".h")
-src = File.basename(head, ".h") + ".cpp"
-puts "head is " + head
-puts "src is " + src
+c = File.basename(head, ".h") + ".c"
+cpp = File.basename(head, ".h") + ".cpp"
 dir = File.dirname(head)
-until is_root(dir)
-  abort ".git not found." if dir == "/"
-  dir = File.dirname(dir)
-end
-puts "dir is " + dir
-src_fullpath = `find #{dir} -name #{src}`.split.last # a shit hack for ShapeChecker
-p "src_fullpath is " + src_fullpath
-if !src_fullpath.empty?
- Vim::command("echo 'vs #{src_fullpath}'")
- Vim::command("let @/ = expand('<cword>')")
- Vim::command("vs #{src_fullpath}")
- Vim::command("normal gg")
- Vim::command("normal n")
+full_c = dir + "/" + c # just find it in same directory
+full_cpp = dir + "/" + cpp # just find it in same directory
+p "file is " + full_cpp
+if File.file?(full_cpp)
+    Vim::command("echo 'vs #{full_cpp}'")
+    Vim::command("let @/ = expand('<cword>')")
+    Vim::command("vs #{full_cpp}")
+    Vim::command("normal gg")
+    Vim::command("normal n")
+elsif File.file?(full_c)
+    Vim::command("echo 'vs #{full_c}'")
+    Vim::command("let @/ = expand('<cword>')")
+    Vim::command("vs #{full_c}")
+    Vim::command("normal gg")
+    Vim::command("normal n")
 else
- Vim::command("echo 'Good bye :)'")
+    abort full_cpp
+    Vim::command("echo 'Goodbye :)'")
 end
 EOF
 endfunction
-nnoremap ,e :call GoToSrc()<cr><cr>
+nnoremap ,e :call GoToCpp()<cr><cr>
