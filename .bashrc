@@ -9,9 +9,9 @@ case $- in
 esac
 
 # exec fish if fish is available
-if command -v fish 2>/dev/null; then
-  exec fish
-fi
+# if command -v fish 2>/dev/null; then
+#   exec fish
+# fi
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
