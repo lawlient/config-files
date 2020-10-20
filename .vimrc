@@ -143,3 +143,11 @@ end
 EOF
 endfunction
 nnoremap ,e :call GoToCpp()<cr><cr>
+
+" 这个函数通过替换命令删除行尾空格                                                  
+func! DeleteTrailingWS()                                                            
+    exec "normal mz"                                                                
+    %s/\s\+$//ge                                                                    
+    exec "normal `z"                                                                
+endfunc                                                                             
+map <leader>t :call DeleteTrailingWS()<CR> 
