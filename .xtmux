@@ -1,0 +1,25 @@
+tmux has-session -t x
+
+if [[ $? > 0 ]];then
+
+    tmux new-session -s x -n source -d
+
+    tmux send-keys -t x:1 'js' C-m
+
+    tmux new-window -n yraid -t x
+
+    tmux send-keys -t x:2 'jd' C-m
+
+    tmux new-window -n os -t x
+
+    tmux send-keys -t x:3 'htop' C-m
+
+    tmux select-window -t x:3
+
+    tmux attach -t x
+
+    exit
+fi
+
+
+
