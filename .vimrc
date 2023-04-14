@@ -37,7 +37,7 @@ filetype plugin indent on
 "   autocmd BufWinEnter *.* silent loadview
 
 set cursorline
-" :hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkcyan guifg=white
+" :hi CursorLine   cterm=underline ctermbg=NONE ctermfg=NONE guibg=darkcyan guifg=white
 :hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=none
 nnoremap <Leader>c :set cursorline!<CR>
 
